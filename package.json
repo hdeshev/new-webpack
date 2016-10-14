@@ -1,0 +1,59 @@
+{
+  "description": "NativeScript Application",
+  "license": "SEE LICENSE IN <your-license-filename>",
+  "readme": "NativeScript Application",
+  "repository": "<fill-your-repository-here>",
+  "nativescript": {
+    "id": "org.nativescript.newwebpack",
+    "tns-android": {
+      "version": "2.3.0"
+    }
+  },
+  "scripts": {
+    "tsc": "tsc",
+    "prestart": "npm run tsc",
+    "ns-clean": "shx rm -rf app/**/*.css app/**/*.js",
+    "ns-webpack-android": "webpack --config=webpack.android.js",
+    "ns-webpack-ios": "webpack --config=webpack.ios.js",
+    "ns-livesync-android": "tns livesync android --bundle --watch --disable-npm-install",
+    "ns-livesync-ios": "tns livesync ios --watch --bundle --watch --disable-npm-install",
+    "ns-start-sync-android": "node wait-for-bundle.js android && npm run ns-livesync-android",
+    "ns-start-sync-ios": "node wait-for-bundle.js ios && npm run ns-livesync-ios",
+    "prestart-android": "npm run ns-clean",
+    "prepare-android": "npm run ns-clean && shx rm -rf platforms/android && tns prepare android --disable-npm-install",
+    "prepare-ios": "npm run ns-clean && shx rm -rf platforms/ios && tns prepare ios --disable-npm-install",
+    "start-android": "nf -j Procfile.android start",
+    "prestart-ios": "npm run ns-clean",
+    "start-ios": "nf -j Procfile.ios start"
+  },
+  "dependencies": {
+    "@angular/common": "2.1.0",
+    "@angular/compiler": "2.1.0",
+    "@angular/core": "2.1.0",
+    "@angular/forms": "2.1.0",
+    "@angular/http": "2.1.0",
+    "@angular/platform-browser": "2.1.0",
+    "@angular/platform-browser-dynamic": "2.1.0",
+    "@angular/router": "3.1.0",
+    "nativescript-angular": "1.1.0",
+    "reflect-metadata": "~0.1.8",
+    "tns-core-modules": "2.3.0"
+  },
+  "devDependencies": {
+    "babel-traverse": "6.16.0",
+    "babel-types": "6.16.0",
+    "babylon": "6.11.6",
+    "lazy": "1.0.11",
+    "nativescript-dev-typescript": "^0.3.2",
+    "typescript": "^2.0.3",
+    "zone.js": "~0.6.21",
+    "webpack": "^1.13.2",
+    "webpack-dev-server": "^1.14.1",
+    "webpack-fail-plugin": "^1.0.5",
+    "copy-webpack-plugin": "^3.0.1",
+    "awesome-typescript-loader": "1.1.1",
+    "html-loader": "^0.4.3",
+    "foreman": "2.0.0",
+    "shx": "^0.1.4"
+  }
+}

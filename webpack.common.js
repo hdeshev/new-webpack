@@ -1,5 +1,5 @@
 var webpack = require("webpack");
-var ConcatSource = require("webpack/lib/ConcatSource");
+var ConcatSource = require("webpack-sources").ConcatSource;
 //var ForkCheckerPlugin = require('awesome-typescript-loader').ForkCheckerPlugin;
 var path = require("path");
 var failPlugin = require("webpack-fail-plugin");
@@ -48,18 +48,19 @@ module.exports = function(platform) {
         resolve: {
             extensions: [
                 ".ts",
-                "",
                 ".js",
                 "." + platform + ".ts",
                 "." + platform + ".js",
             ],
-            modulesDirectories: [
+            modules: [
                 "node_modules/tns-core-modules",
                 "node_modules"
             ]
         },
-        resolveLoader: {
-            root: path.join(__dirname, "..", "node_modules")
+        node: {
+            "http": false,
+            "timers": false,
+            "setImmediate": false,
         },
         module: {
             loaders: [

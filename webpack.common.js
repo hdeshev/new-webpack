@@ -15,7 +15,7 @@ FixJsonpPlugin.prototype.apply = function (compiler) {
         compilation.plugin("optimize-chunk-assets", function (chunks, callback) {
             chunks.forEach(function (chunk) {
                 chunk.files.forEach(function (file) {
-                    if (file === "vendor.android.js" || file === "vendor.ios.js") {
+                    if (file === "vendor.js") {
                         var src = compilation.assets[file];
                         var code = src.source();
                         var match = code.match(/window\["nativescriptJsonp"\]/);
@@ -30,17 +30,17 @@ FixJsonpPlugin.prototype.apply = function (compiler) {
     });
 };
 
-module.exports = function(platform) {
+module.exports = function(platform, destinationApp) {
     var entry = {};
-    entry["bundle." + platform] = "./main";
-    entry["vendor." + platform] = "./vendor";
+    entry["bundle"] = "./main";
+    entry["vendor"] = "./vendor";
 
     return {
-        context: path.resolve("./src"),
+        context: path.resolve("./app"),
         entry: entry,
         output: {
             pathinfo: true,
-            path: path.resolve("./app"),
+            path: path.resolve(destinationApp),
             libraryTarget: "commonjs2",
             filename: "[name].js",
             jsonpFunction: "nativescriptJsonp"
@@ -86,7 +86,7 @@ module.exports = function(platform) {
         plugins: [
             failPlugin,
             new webpack.optimize.CommonsChunkPlugin({
-                name: ["vendor." + platform]
+                name: ["vendor"]
             }),
             new webpack.DefinePlugin({
                 global: 'global',
@@ -96,6 +96,8 @@ module.exports = function(platform) {
             new CopyWebpackPlugin([
                 { from: "starter*.js" },
                 { from: "**/*.css" },
+                { from: "**/*.html" },
+                { from: "package.json" },
             ]),
             new FixJsonpPlugin(),
         ]

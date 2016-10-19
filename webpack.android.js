@@ -1,7 +1,7 @@
 var path = require("path");
 
 var makeConfig = require("./webpack.common");
-module.exports = makeConfig("android");
+module.exports = makeConfig("android", "platforms/android/src/main/assets/app");
 
 module.exports.devServer = {
     port: 3000,
